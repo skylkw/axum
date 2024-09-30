@@ -8,6 +8,7 @@ pub struct DatabaseConfig {
   pub host: String,
   pub max_connections: u32,
   pub database_name: String,
+  pub logging: bool,
 }
 
 impl DatabaseConfig {

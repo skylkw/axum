@@ -29,8 +29,10 @@ mod tests {
 
   #[test]
   pub fn test_argon_hash() {
-    let password: String = Faker.fake();
+    // let password: String = Faker.fake();
+    let password: String = "12345678".to_string();
     let hash_pass = argon_hash(password).unwrap();
+    println!("hash_pass: {:?}", hash_pass);
     assert!(!hash_pass.is_empty());
   }
 

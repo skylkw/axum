@@ -13,7 +13,9 @@ use crate::util::claim::UserClaims;
     info(
         version = "v0.1.0",
         title = "RUSTful API",
+        description = "RUSTful API",
     ),
+    
     paths(
         // server api 
         crate::handler::server::health_check,

@@ -2,18 +2,18 @@ profile = "test"
 
 [server]
 addr = "127.0.0.1"
-port = 0
+port = 8_080
 
 [db]
 host = "127.0.0.1"
 port = 5_432
-username = "username"
-password = "password"
-database_name = "database_name"
+username = "postgres"
+password = "root"
+database_name = "axum"
 max_connections = 5
 
 [redis]
-username = "redis_user"
+username = "default"
 password = ""
 host = "127.0.0.1"
 port = 6_379
