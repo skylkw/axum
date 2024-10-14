@@ -34,7 +34,7 @@ impl MessengerTask {
       };
       if messages.is_empty() {
         tokio::select! {
-          _ = tokio::time::sleep(std::time::Duration::from_secs(120)) => {
+          _ = tokio::time::sleep(std::time::Duration::from_secs(1200)) => {
             tracing::info!("The messenger task has awakened.");
           },
           _ = self.state.messenger_notify.notified() => {

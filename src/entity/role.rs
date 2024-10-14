@@ -10,7 +10,6 @@ use serde::{Deserialize, Serialize};
   Ord,
   Deserialize,
   Serialize,
-  utoipa::ToSchema,
   fake::Dummy,
   Clone,
   Copy,

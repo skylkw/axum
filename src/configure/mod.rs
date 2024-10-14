@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use ::tracing::info;
 use config::{ConfigError, Environment};
 use serde::Deserialize;
@@ -37,11 +35,9 @@ pub struct AppConfig {
 }
 
 impl AppConfig {
-    pub fn read(env_src: Environment) -> Result<Self, config::ConfigError> {
+    pub fn read(env_src: Environment) -> Result<Self, ConfigError> {
         let config_dir = get_settings_dir()?;
-        let profile = std::env::var("APP_PROFILE")
-            .map(|env| Profile::from_str(&env).map_err(|e| ConfigError::Message(e.to_string())))
-            .unwrap_or_else(|_e| Ok(Profile::Dev))?;
+        let profile = env::get_profile()?;
         let profile_filename = format!("{profile}.toml");
         let config = config::Config::builder()
             .add_source(config::File::from(config_dir.join("base.toml")))
@@ -97,8 +93,7 @@ mod tests {
 
     #[test]
     pub fn test_read_app_config() {
-        println!("{:?}", get_env_source("APP"));
-        let _config = AppConfig::read(get_env_source("TEST_APP")).unwrap();
+        let _config = AppConfig::read(get_env_source("APP")).unwrap();
         println!("{:?}", _config);
     }
 

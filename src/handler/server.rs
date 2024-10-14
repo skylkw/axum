@@ -7,27 +7,11 @@ use axum::Json;
 use tracing::error;
 
 // Health check.
-#[utoipa::path(
-    get,
-    path = "/api/v1/server/health_check",
-    responses(
-        (status = 200, description = "check service is up", body = [MessageResponse])
-    )
-)]
 pub async fn health_check() -> AppResult<Json<MessageResponse>> {
   Ok(Json(MessageResponse::new("Ok")))
 }
 
 // Sever connection state.
-#[utoipa::path(
-    get,
-    path = "/api/v1/server/state",
-    responses(
-        (status = 200, description = "state of connection services", body = [ServiceStatusResponse]),
-        (status = 500, description = "internal server error", body = [AppResponseError])
-    )
-    // security(("jwt" = []))
-)]
 pub async fn server_state(State(state): State<AppState>) -> AppResult<Json<ServiceStatusResponse>> {
   let db = state.db.ping().await;
   if let Err(e) = db.as_ref() {

@@ -15,7 +15,7 @@ use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, TokenData, Validation};
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use serde::Serialize;
-use utoipa::ToSchema;
+
 use uuid::Uuid;
 
 use crate::error::{AppError, AppResult};
@@ -25,7 +25,7 @@ use crate::{entity::role::RoleUser, service};
 pub static DECODE_HEADER: Lazy<Validation> = Lazy::new(|| Validation::new(Algorithm::RS256));
 pub static ENCODE_HEADER: Lazy<Header> = Lazy::new(|| Header::new(Algorithm::RS256));
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Dummy, ToSchema)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Dummy, )]
 pub struct UserClaims {
   // issued at
   pub iat: i64,
@@ -121,14 +121,6 @@ mod tests {
       session_id,
       RoleUser::User,
     );
-    // println!(
-    //     "private key: {}",
-    //     String::from_utf8(pair_key.private_key.clone()).unwrap()
-    // );
-    // println!(
-    //     "public key: {}",
-    //     String::from_utf8(pair_key.public_key.clone()).unwrap()
-    // );
     let token = claims
       .encode(&EncodingKey::from_rsa_pem(&pair_key.private_key).unwrap())
       .unwrap();

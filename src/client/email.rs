@@ -1,5 +1,4 @@
 use lettre::transport::smtp::authentication::Credentials;
-use lettre::transport::smtp::client::Tls;
 use lettre::{AsyncSmtpTransport, Tokio1Executor};
 use lettre::{AsyncTransport, Message};
 use tracing::info;
@@ -25,7 +24,6 @@ impl ClientBuilder for EmailClient {
                     config.email.password.clone(),
                 ))
                 .port(config.email.port)
-                .tls(Tls::None)
                 .build(),
         )
     }

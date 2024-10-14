@@ -9,16 +9,7 @@ use crate::util::claim::UserClaims;
 use crate::{dto::*, service};
 
 /// Refresh token.
-#[utoipa::path(
-    post,
-    path = "/api/v1/token/refresh",
-    responses(
-        (status = 200, description = "Success get new access token and refresh token", body = [TokenResponse]),
-        (status = 400, description = "Invalid data input", body = [AppResponseError]),
-        (status = 401, description = "Unauthorized user", body = [AppResponseError]),
-        (status = 500, description = "Internal server error", body = [AppResponseError])
-    ),
-)]
+
 pub async fn refresh(
   State(state): State<AppState>,
   Json(req): Json<RefreshTokenRequest>,
@@ -37,18 +28,6 @@ pub async fn refresh(
 }
 
 /// Get token information.
-#[utoipa::path(
-    post,
-    path = "/api/v1/token/info",
-    request_body = TokenInfoRequest,
-    responses(
-        (status = 200, description = "Success get token information", body = [UserClaims]),
-        (status = 400, description = "Invalid token", body = [AppResponseError]),
-        (status = 401, description = "Unauthorized user", body = [AppResponseError]),
-        (status = 500, description = "Internal server error", body = [AppResponseError])
-    ),
-    security(("jwt" = []))
-)]
 pub async fn info(
   State(state): State<AppState>,
   user: UserClaims,

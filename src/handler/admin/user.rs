@@ -7,19 +7,7 @@ use crate::server::state::AppState;
 use crate::util::claim::UserClaims;
 use crate::{dto::*, service};
 
-/// Get list of user.
-#[utoipa::path(
-    put,
-    path = "/api/v1/admin/user/list",
-    params(PageQueryParam),
-    responses(
-        (status = 200, description = "Success get list of users", body = [GetUserListResponse]),
-        (status = 400, description = "Invalid data input", body = [AppResponseError]),
-        (status = 401, description = "Unauthorized user", body = [AppResponseError]),
-        (status = 500, description = "Internal server error", body = [AppResponseError])
-    ),
-    security(("jwt" = []))
-)]
+
 pub async fn list(
   State(state): State<AppState>,
   user: UserClaims,

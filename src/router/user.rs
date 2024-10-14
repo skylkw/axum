@@ -1,17 +1,22 @@
 use axum::routing::{get, post, put};
+use axum::Router;
 
 use crate::handler::user;
 use crate::server::state::AppState;
 
-pub fn add_routers(router: axum::Router<AppState>) -> axum::Router<AppState> {
-  router
-    .route("/api/v1/user/register", post(user::register))
-    .route("/api/v1/user/active", put(user::active))
-    .route("/api/v1/user/login", post(user::login))
-    .route("/api/v1/user/login2fa", post(user::login2fa))
-    .route("/api/v1/user/logout", get(user::logout))
-    .route("/api/v1/user/password", get(user::forget_password))
-    .route("/api/v1/user/password", put(user::reset_password))
-    .route("/api/v1/user/profile", get(user::get_profile))
-    .route("/api/v1/user/profile", put(user::update_profile))
+pub fn add_routers(router: Router<AppState>, prefix: &str) -> Router<AppState> {
+    router.nest(prefix, user_routes())
+}
+fn user_routes() -> Router<AppState> {
+    Router::new()
+        .route("/register", post(user::register))
+        .route("/active", put(user::active))
+        .route("/login", post(user::login))
+        .route("/login2fa", post(user::login2fa))
+        .route("/logout", post(user::logout))
+        .route("/password", get(user::forget_password))
+        .route("/password", put(user::reset_password))
+        .route("/profile", get(user::get_profile))
+        .route("/profile", put(user::update_profile))
+        .route("/codes", get(user::get_access_codes))
 }

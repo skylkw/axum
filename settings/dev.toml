@@ -7,7 +7,7 @@ port = 8_080
 [db]
 host = "127.0.0.1"
 port = 5_432
-username = "postgres"
+username = "lkw"
 password = "root"
 database_name = "axum"
 max_connections = 5
@@ -21,10 +21,10 @@ port = 6_379
 database_name = ""
 
 [email]
-username = "lkw10032@gamil.com"
-password = "10032lkw"
-host = "smtp.gmail.com"
-port = 1_025
+username = "450733477@qq.com"
+password = "xaqttfjqiqvibjjb"
+host = "smtp.qq.com"
+port = 465
 
 [sentry]
 key = "https://92654da696494bd2b88f06438aef9fb3@o1055779.ingest.sentry.io/6583480"

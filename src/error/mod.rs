@@ -6,82 +6,118 @@ use axum::{
 use serde::Deserialize;
 use serde::Serialize;
 use strum::EnumString;
-use utoipa::ToSchema;
 
 use crate::entity;
 
 pub type AppResult<T = ()> = std::result::Result<T, AppError>;
 
-#[derive(Debug, thiserror::Error, ToSchema)]
+#[derive(Debug, thiserror::Error)]
 pub enum AppError {
+  // 资源未找到错误
   #[error("{0} not found")]
   NotFoundError(Resource),
+  // 资源不可用错误
   #[error("{0} not available")]
   NotAvailableError(Resource),
+  // 资源已存在错误
   #[error("{0} already exists")]
   ResourceExistsError(Resource),
+  // 权限拒绝错误
   #[error("{0}")]
   PermissionDeniedError(String),
+  // 用户未激活错误
   #[error("{0}")]
   UserNotActiveError(String),
+  // 无效会话错误
   #[error("{0}")]
   InvalidSessionError(String),
+  // 冲突错误
   #[error("{0}")]
   ConflictError(String),
+  // 未授权错误
   #[error("{0}")]
   UnauthorizedError(String),
+  // 错误请求错误
   #[error("bad request {0}")]
   BadRequestError(String),
+  // 无效负载错误
   #[error("{0}")]
   InvalidPayloadError(String),
+  // 哈希错误
   #[error("{0}")]
   HashError(String),
+  // 无效输入错误
   #[error(transparent)]
   InvalidInputError(#[from] garde::Report),
+  // 数据库错误
   #[error(transparent)]
   DatabaseError(#[from] sea_orm::error::DbErr),
+  // WebSocket 错误
   #[error(transparent)]
   WebSocketError(#[from] tokio_tungstenite::tungstenite::Error),
+  // IO 错误
   #[error(transparent)]
   IoError(#[from] std::io::Error),
+  // UUID 错误
   #[error(transparent)]
   UuidError(#[from] uuid::Error),
+  // JWT 错误
   #[error(transparent)]
   JwtError(#[from] jsonwebtoken::errors::Error),
+  // HTTP 客户端错误
   #[error(transparent)]
   HttpClientError(#[from] reqwest::Error),
+  // Redis 错误
   #[error(transparent)]
   RedisError(#[from] redis::RedisError),
+  // 配置错误
   #[error(transparent)]
   ConfigError(#[from] config::ConfigError),
+  // SMTP 错误
   #[error(transparent)]
   SmtpError(#[from] lettre::transport::smtp::Error),
+  // Lettre 错误
   #[error(transparent)]
   LetterError(#[from] lettre::error::Error),
+  // JSON 解析错误
   #[error(transparent)]
   ParseJsonError(#[from] serde_json::Error),
+  // 浮点数解析错误
   #[error(transparent)]
   ParseFloatError(#[from] std::num::ParseFloatError),
+  // 地址解析错误
   #[error(transparent)]
   AddrParseError(#[from] std::net::AddrParseError),
+  // 任务生成错误
   #[error(transparent)]
   SpawnTaskError(#[from] tokio::task::JoinError),
+  // Tera 模板引擎错误
   #[error(transparent)]
   TeraError(#[from] tera::Error),
+  // Base64 解码错误
   #[error(transparent)]
   Base64Error(#[from] base64::DecodeError),
+  // Strum 解析错误
   #[error(transparent)]
   StrumParseError(#[from] strum::ParseError),
+  // 系统时间错误
   #[error(transparent)]
   SystemTimeError(#[from] std::time::SystemTimeError),
+  // Axum 框架错误
   #[error(transparent)]
   AxumError(#[from] axum::Error),
+  // 未知错误
   #[error(transparent)]
   UnknownError(#[from] anyhow::Error),
+  // 不可到达错误
   #[error(transparent)]
   Infallible(#[from] std::convert::Infallible),
+  // 类型头错误
   #[error(transparent)]
   TypeHeaderError(#[from] axum_extra::typed_header::TypedHeaderRejection),
+  // 多部分表单错误
+  #[error(transparent)]
+  MultipartError(#[from] axum::extract::multipart::MultipartError),
 }
 
 impl From<argon2::password_hash::Error> for AppError {
@@ -314,6 +350,12 @@ impl AppError {
         vec![],
         StatusCode::INTERNAL_SERVER_ERROR,
       ),
+      MultipartError(_err) => (
+        "MULTIPART_ERROR".to_string(),
+        None,
+        vec![],
+        StatusCode::BAD_REQUEST,
+      ),
     };
 
     (
@@ -330,7 +372,7 @@ impl IntoResponse for AppError {
   }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, utoipa::ToSchema)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct AppResponseError {
   pub kind: String,
   pub error_message: String,

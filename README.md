@@ -29,7 +29,6 @@ To use this template as your project starting point, click "Use this template" a
 * Authentication. Based on [jsonwebtoken](https://github.com/Keats/jsonwebtoken)
 * Layered configuration. Based on [config-rs](https://github.com/mehcode/config-rs)
 * Logs. Based on [tracing](https://github.com/tokio-rs/tracing)
-* OpenAPI documentation [utoipa](https://github.com/juhaku/utoipa)
 * Error handling
 * Pagination
 * Profile base 
@@ -44,8 +43,6 @@ To use this template as your project starting point, click "Use this template" a
 
 ```bash
 ./run
-# open swagger panel
-xdg-open http://127.0.0.1:8080/swagger-ui/
 # manually testing your API routes with curl commands
 curl -X GET http://127.0.0.1:8080/api/v1/server/health_check
 ```

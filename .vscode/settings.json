@@ -1,5 +1,5 @@
 {
     "rust-analyzer.linkedProjects": [
-        "/home/lkw/code/rust/axum/Cargo.toml"
+        "Cargo.toml"
     ]
 }
