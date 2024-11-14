@@ -5,5 +5,5 @@ pub mod redis;
 pub mod session;
 pub mod token;
 pub mod user;
-pub mod upload;
 pub mod image;
+pub mod annotation;

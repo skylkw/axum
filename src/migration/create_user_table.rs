@@ -26,9 +26,9 @@ impl MigrationTrait for Migration {
       r#"INSERT INTO users (id, username, password, email, role, is_active, is_2fa, create_at, update_at) VALUES
    (
       gen_random_uuid(),
-      'test-user',
-      '$argon2id$v=19$m=4096,t=3,p=1$xj+gEfx2tF584ugWtZuZpw$t8MR3ns9T5n+0TsmUS3TGVQRmjRaoQVMyuBvvry1SbU',
-      'test-user@email.com',
+      'lkw',
+      '$argon2id$v=19$m=19456,t=2,p=1$6QNOByCW0aoG0oaE9dpqBw$YSlhilZr4Ub0TeUzcatr68n18Tetknj6jhNk1V/pwfA',
+      '1005446851@qq.com',
       'User',
       true,
       false,

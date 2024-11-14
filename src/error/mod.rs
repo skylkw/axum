@@ -419,6 +419,10 @@ pub enum ResourceType {
   Session,
   #[strum(serialize = "MESSAGE")]
   Message,
+  #[strum(serialize = "IMAGE")]
+  Image,
+  #[strum(serialize = "ANNOTATION")]
+  Annotation,
 }
 
 pub fn invalid_input_error(field: &'static str, message: &'static str) -> AppError {

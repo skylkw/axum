@@ -11,7 +11,9 @@ use crate::{
 pub mod message;
 pub mod role;
 pub mod user;
-
+pub mod image;
+pub mod annotation;
+pub mod tags;
 pub trait AppEntity {
   const RESOURCE: ResourceType;
 }

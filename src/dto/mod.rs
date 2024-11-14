@@ -5,11 +5,13 @@ use garde::Validate;
 use lettre::Message;
 pub use request::*;
 pub use response::*;
+pub use common::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 pub mod request;
 pub mod response;
+pub mod common;
 
 #[derive(Debug, Deserialize, Serialize, Dummy, Validate)]
 pub struct Email {

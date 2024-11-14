@@ -10,13 +10,13 @@ use crate::{
 pub const ENV_PREFIX: &str = "APP";
 pub const CODE_LEN: usize = 5;
 pub const CLIENT_TIMEOUT: Duration = Duration::from_secs(120);
-pub const EXPIRE_SESSION_CODE_SECS: Duration = Duration::from_secs(2000);
+pub const EXPIRE_SESSION_CODE_SECS: Duration = Duration::from_secs(86000);
 pub const EXPIRE_INVITATION_CODE_SECS: Duration = Duration::from_secs(86000);
 pub const EXPIRE_BLOCKED_EMAIL_SECS: Duration = Duration::from_secs(100);
 pub const EXPIRE_FORGET_PASS_CODE_SECS: Duration = Duration::from_secs(100);
 pub const EXPIRE_TWO_FACTOR_CODE_SECS: Duration = Duration::from_secs(200);
-pub const EXPIRE_BEARER_TOKEN_SECS: Duration = Duration::from_secs(60*60);
-pub const EXPIRE_REFRESH_TOKEN_SECS: Duration = Duration::from_secs(60*60*24*30);
+pub const EXPIRE_BEARER_TOKEN_SECS: Duration = Duration::from_secs(3600);
+pub const EXPIRE_REFRESH_TOKEN_SECS: Duration = Duration::from_secs(86000);
 pub const QUEUE_EMPTY_DELAY_SECS: Duration = Duration::from_secs(60);
 pub const COMPLETE_TASK_DELAY_SECS: Duration = Duration::from_secs(10);
 pub const CHECK_EMAIL_MESSAGE: &str = "Please check you email.";

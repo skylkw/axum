@@ -1,8 +1,5 @@
-use std::borrow::Cow;
-
 use chrono::{DateTime, Utc};
 use fake::Dummy;
-use openssl::derive;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -11,6 +8,8 @@ use crate::{
     entity::{self, role::RoleUser},
     error::AppResponseError,
 };
+
+use super::{Annotation, Image};
 
 #[derive(Debug, Serialize, Deserialize, Dummy, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -28,6 +27,20 @@ pub struct GetUserResponse {
     pub is_active: bool,
     pub is_2fa: bool,
     pub create_at: DateTime<Utc>,
+}
+
+impl From<entity::user::Model> for GetUserResponse {
+    fn from(user: entity::user::Model) -> Self {
+        GetUserResponse {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role_name: user.role,
+            is_active: user.is_active,
+            is_2fa: user.is_2fa,
+            create_at: user.create_at,
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Dummy, Clone)]
@@ -154,20 +167,6 @@ impl From<entity::user::Model> for ProfileResponse {
     }
 }
 
-impl From<entity::user::Model> for GetUserResponse {
-    fn from(user: entity::user::Model) -> Self {
-        GetUserResponse {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            role_name: user.role,
-            is_active: user.is_active,
-            is_2fa: user.is_2fa,
-            create_at: user.create_at,
-        }
-    }
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
@@ -187,7 +186,6 @@ impl<R> AppResultResponse<R> {
     }
 }
 
-
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ImageResponse {
     pub content_type: String,
@@ -200,9 +198,8 @@ impl ImageResponse {
     }
 }
 
-
-#[derive(Debug, Serialize, Deserialize,Clone)]
-pub  struct UploadImageResponse {
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct UploadImageResponse {
     pub filename: String,
     pub url: String,
 }
@@ -210,5 +207,29 @@ pub  struct UploadImageResponse {
 impl UploadImageResponse {
     pub fn new(filename: String, url: String) -> Self {
         Self { filename, url }
+    }
+}
+
+
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct GetImageListResponse {
+    pub list: Vec<Image>,
+}
+
+impl GetImageListResponse {
+    pub fn new(list: Vec<Image>) -> Self {
+        Self { list }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct GetAnnotationsResponse {
+    pub annotations: Vec<Annotation>,
+}
+
+impl GetAnnotationsResponse {
+    pub fn new(annotations: Vec<Annotation>) -> Self {
+        Self { annotations }
     }
 }

@@ -27,7 +27,7 @@ pub async fn register(state: AppState, req: RegisterRequest) -> AppResult<Uuid> 
     info!("Register a new user request: {req:?}.");
     let tx = state.db.begin().await?;
     check_unique_username_or_email(&tx, &req.username, &req.email).await?;
-    let user_id = crate::repo::user::save(&tx, req.username, req.password, req.email).await?;
+    let user_id = repo::user::save(&tx, req.username, req.password, req.email).await?;
     let code = generate_active_code();
     repo::message::save(&tx, user_id, code, MessageKind::ActiveCode).await?;
     tx.commit().await?;
@@ -204,8 +204,7 @@ pub async fn update_profile(
     Ok(())
 }
 
-pub async fn get_access_codes(state: &AppState, user_id: Uuid) -> AppResult<String> {
-  
+pub async fn get_access_codes(_state: &AppState, _user_id: Uuid) -> AppResult<String> {
     Ok(String::from("access_code"))
 }
 

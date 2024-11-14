@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 use strum::Display;
 use uuid::Uuid;
 
+use super::Annotation;
+
 #[derive(Debug, Deserialize, Serialize, Dummy, Validate)]
 pub struct RegisterRequest {
     #[dummy(faker = "Username()")]
@@ -33,6 +35,7 @@ impl RegisterRequest {
 }
 
 #[derive(Debug, Deserialize, Serialize, Dummy, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct PageQueryParam {
     pub page_num: u64,
     pub page_size: u64,
@@ -131,10 +134,23 @@ pub struct UpdateProfileRequest {
     pub is_private: Option<bool>,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveAnnotationBulkRequest {
+    pub image_id: i64,
+    pub annotations: Vec<Annotation>,
+}
+
+// 获取annotation的请求参数
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnnotationsQueryParams {
+    pub image_id: i64,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
     fn test_invalid_email_register_request() {
         let req = RegisterRequest::new("username", "email", "password");
